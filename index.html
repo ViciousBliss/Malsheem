@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Better to Reign — Malsheem Flow (Nine Tiers)</title>
+<style>
+  :root{
+    --ink-900:#140a0a; --ink-850:#1c0f0f; --ink-800:#241414;
+    --line:#4a2a2a; --line-soft:#331f1f;
+    --bone:#e6ddcf; --bone-2:#bdb0a2; --bone-3:#8a7a74;
+    --gold:#e0b357; --crimson:#c6413f; --cold:#7fa8c8; --amethyst:#a06fc8; --ash:#9aa0a6;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--ink-900);color:var(--bone);font-family:var(--sans);font-size:16px;line-height:1.55;padding-bottom:60px}
+  header{border-bottom:1px solid var(--line-soft);padding:22px 18px;max-width:1150px;margin:0 auto}
+  h1{font-family:var(--serif);font-weight:600;font-size:1.5rem;margin:0 0 4px;letter-spacing:.3px;color:var(--gold)}
+  header p{margin:0;color:var(--bone-2);font-size:.92rem;max-width:74ch}
+  header p b{color:var(--bone)}
+  main{max-width:1150px;margin:0 auto;padding:0 18px}
+  .legend{display:flex;flex-wrap:wrap;gap:14px;margin:18px 0 6px;font-size:.82rem;color:var(--bone-2)}
+  .legend span{display:inline-flex;align-items:center;gap:7px}
+  .legend i{width:13px;height:13px;border-radius:4px;display:inline-block;border:1.5px solid}
+  .lg-foh{background:#20161f;border-color:#8a7f96}
+  .lg-entry{background:#201616;border-color:#7a6a6a}
+  .lg-frag{background:#3a2e10;border-color:var(--gold)}
+  .lg-trav{background:#1b1b1a;border-color:#6a6560}
+  .lg-boss{background:#4a1414;border-color:var(--crimson)}
+  .lg-throne{background:#5a0f0f;border-color:#ff6a5a}
+  .edgekey{font-size:.8rem;color:var(--bone-3);margin:8px 0 0}
+  .edgekey b{color:var(--bone-2)}
+  .edgekey code{background:var(--ink-800);border:1px solid var(--line);border-radius:4px;padding:1px 5px;color:var(--gold)}
+  .howto{background:var(--ink-800);border:1px solid var(--line-soft);border-radius:12px;padding:14px 16px;margin:18px 0;font-size:.9rem;color:var(--bone-2)}
+  .howto b{color:var(--bone)}
+  .diagram{background:var(--ink-850);border:1px solid var(--line-soft);border-radius:12px;padding:10px;overflow-x:auto}
+  footer{max-width:1150px;margin:24px auto 0;padding:16px 18px;border-top:1px solid var(--line-soft);font-size:.78rem;color:var(--bone-3)}
+  footer b{color:var(--bone-2)}
+</style>
+</head>
+<body>
+<header>
+  <h1>Better to Reign — The Flow of Malsheem</h1>
+  <p>The opera-citadel as a bounded dungeon: <b>nine tiers</b>, one per layer of Baator, ~86 rooms, from front-of-house up to the Throne. <b>Up is down</b> — the party climbs the house and descends into Hell, so the page reads top (arrival, Avernus) to bottom (Nessus, the Throne). Room IDs and fragment modes match the card deck. Each tier: an entry, five fragment rooms, two traversal rooms, the Principal's stage, the ascent.</p>
+</header>
+<main>
+  <div class="legend">
+    <span><i class="lg-foh"></i>Front-of-house</span>
+    <span><i class="lg-entry"></i>Entry / ascent</span>
+    <span><i class="lg-frag"></i>Fragment room</span>
+    <span><i class="lg-trav"></i>Traversal</span>
+    <span><i class="lg-boss"></i>Principal (mini-boss)</span>
+    <span><i class="lg-throne"></i>The Throne</span>
+  </div>
+  <p class="edgekey"><b>Fragment modes:</b> <code>[C]</code> combat · <code>[P]</code> puzzle · <code>[R]</code> riddle (answer tied to the room). <b>Edges:</b> <code>———</code> passage · <code>· frag ·</code> a fragment feeds the Principal's stage · <code>══▶</code> the ascent to the next tier.</p>
+  <div class="howto">
+    <b>How to read it.</b> Work each tier: collect its five fragments (they feed the Principal's stage, dotted), assemble the tier's key, then take the Principal and climb. The win-gate meter in the Ledger-House (A2) tracks how many Principals have fallen; enough breaks the performance and opens the Throne. Pull a room's card for its read-aloud and run-stats; this is the skeleton.
+  </div>
+
+  <div class="diagram"><pre class="mermaid">
+flowchart TB
+  classDef foh fill:#20161f,stroke:#8a7f96,color:#e6dfea;
+  classDef entry fill:#201616,stroke:#7a6a6a,color:#d8cfc8;
+  classDef frag fill:#3a2e10,stroke:#e0b357,color:#f0e3c4;
+  classDef trav fill:#1b1b1a,stroke:#6a6560,color:#b8b2ac;
+  classDef boss fill:#4a1414,stroke:#c6413f,color:#f3d9d9,stroke-width:2px;
+  classDef throne fill:#5a0f0f,stroke:#ff6a5a,color:#ffd9d2,stroke-width:3px;
+
+  subgraph FOH["Front-of-House"]
+    a0["A0 Brimstone Gates"]:::foh
+    a1["A1 Grand Foyer · Seneschal"]:::foh
+    a2["A2 Ledger-House · win-gate meter"]:::foh
+    a3["A3 Audience Eternal"]:::foh
+  end
+  a0 --> a1
+  a1 --- a2
+  a1 --> a3
+
+  subgraph T1["Tier 1 — Avernus · The Warden of the Fall (witness)"]
+    t1_0["1.0 Blood Gate"]:::entry
+    t1_1["1.1 The Muster [C]"]:::frag
+    t1_2["1.2 Field of Lances [P]"]:::frag
+    t1_3["1.3 Oath-Stone [R]"]:::frag
+    t1_4["1.4 Charnel Choir [C]"]:::frag
+    t1_5["1.5 Pale Stable [R]"]:::frag
+    t1x1["1.T1 Trenchway"]:::trav
+    t1x2["1.T2 Field-Hospital"]:::trav
+    t1b["1.B Stage of the Fall<br>Warden · Zariel"]:::boss
+    t1c["1.C Ascent to Dis"]:::entry
+  end
+  a3 ==> t1_0
+  t1_0 --> t1_1
+  t1_0 --> t1_2
+  t1_0 --> t1x1
+  t1x1 --> t1_3
+  t1x1 --> t1_4
+  t1x1 --> t1x2
+  t1x2 --> t1_5
+  t1_1 -. frag .- t1b
+  t1_2 -. frag .- t1b
+  t1_3 -. frag .- t1b
+  t1_4 -. frag .- t1b
+  t1_5 -. frag .- t1b
+  t1b ==> t1c
+
+  subgraph T2["Tier 2 — Dis · The Architect (redeem/defeat)"]
+    t2_0["2.0 Iron Foyer"]:::entry
+    t2_1["2.1 Blueprint Vault [P]"]:::frag
+    t2_2["2.2 Wall of Edicts [R]"]:::frag
+    t2_3["2.3 Clockwork Court [C]"]:::frag
+    t2_4["2.4 Hall of Locked Doors [P]"]:::frag
+    t2_5["2.5 Debtor's Gallery [C]"]:::frag
+    t2x1["2.T1 Endless Stair"]:::trav
+    t2x2["2.T2 Smoke-Gallery"]:::trav
+    t2b["2.B The Architect"]:::boss
+    t2c["2.C Ascent to Minauros"]:::entry
+  end
+  t1c ==> t2_0
+  t2_0 --> t2_1
+  t2_0 --> t2_2
+  t2_0 --> t2x1
+  t2x1 --> t2_3
+  t2x1 --> t2_4
+  t2x1 --> t2x2
+  t2x2 --> t2_5
+  t2_1 -. frag .- t2b
+  t2_2 -. frag .- t2b
+  t2_3 -. frag .- t2b
+  t2_4 -. frag .- t2b
+  t2_5 -. frag .- t2b
+  t2b ==> t2c
+
+  subgraph T3["Tier 3 — Minauros · The Hoarder (redeem)"]
+    t3_0["3.0 Vault Doors"]:::entry
+    t3_1["3.1 Drowning Hoard [C]"]:::frag
+    t3_2["3.2 Counting-House [P]"]:::frag
+    t3_3["3.3 Beggar's Step [R]"]:::frag
+    t3_4["3.4 Gilded Lungs [P]"]:::frag
+    t3_5["3.5 Mire of Promises [C]"]:::frag
+    t3x1["3.T1 Sinking Causeway"]:::trav
+    t3x2["3.T2 Pawn-Gallery"]:::trav
+    t3b["3.B The Hoarder"]:::boss
+    t3c["3.C Ascent to Phlegethos"]:::entry
+  end
+  t2c ==> t3_0
+  t3_0 --> t3_1
+  t3_0 --> t3_2
+  t3_0 --> t3x1
+  t3x1 --> t3_3
+  t3x1 --> t3_4
+  t3x1 --> t3x2
+  t3x2 --> t3_5
+  t3_1 -. frag .- t3b
+  t3_2 -. frag .- t3b
+  t3_3 -. frag .- t3b
+  t3_4 -. frag .- t3b
+  t3_5 -. frag .- t3b
+  t3b ==> t3c
+
+  subgraph T4["Tier 4 — Phlegethos · The Reveler (redeem)"]
+    t4_0["4.0 Fire-Curtain"]:::entry
+    t4_1["4.1 Endless Feast [C]"]:::frag
+    t4_2["4.2 Mirrors-in-Flame [P]"]:::frag
+    t4_3["4.3 Ash-Dance [R]"]:::frag
+    t4_4["4.4 Wine-Dark Pool [P]"]:::frag
+    t4_5["4.5 Pyre of Favors [C]"]:::frag
+    t4x1["4.T1 Smoke-Veiled Corridor"]:::trav
+    t4x2["4.T2 The Cooling Room"]:::trav
+    t4b["4.B The Reveler"]:::boss
+    t4c["4.C Ascent to Stygia"]:::entry
+  end
+  t3c ==> t4_0
+  t4_0 --> t4_1
+  t4_0 --> t4_2
+  t4_0 --> t4x1
+  t4x1 --> t4_3
+  t4x1 --> t4_4
+  t4x1 --> t4x2
+  t4x2 --> t4_5
+  t4_1 -. frag .- t4b
+  t4_2 -. frag .- t4b
+  t4_3 -. frag .- t4b
+  t4_4 -. frag .- t4b
+  t4_5 -. frag .- t4b
+  t4b ==> t4c
+
+  subgraph T5["Tier 5 — Stygia · The Betrayer in the Ice (redeem/defeat)"]
+    t5_0["5.0 Frost Gate"]:::entry
+    t5_1["5.1 Frozen Fleet [P]"]:::frag
+    t5_2["5.2 Judas Gallery [R]"]:::frag
+    t5_3["5.3 Lightning Vault [C]"]:::frag
+    t5_4["5.4 Mirror-Ice [P]"]:::frag
+    t5_5["5.5 Oathbreaker's Pit [C]"]:::frag
+    t5x1["5.T1 Groaning Floe"]:::trav
+    t5x2["5.T2 The Still Deep"]:::trav
+    t5b["5.B The Betrayer in the Ice"]:::boss
+    t5c["5.C Ascent to Malbolge"]:::entry
+  end
+  t4c ==> t5_0
+  t5_0 --> t5_1
+  t5_0 --> t5_2
+  t5_0 --> t5x1
+  t5x1 --> t5_3
+  t5x1 --> t5_4
+  t5x1 --> t5x2
+  t5x2 --> t5_5
+  t5_1 -. frag .- t5b
+  t5_2 -. frag .- t5b
+  t5_3 -. frag .- t5b
+  t5_4 -. frag .- t5b
+  t5_5 -. frag .- t5b
+  t5b ==> t5c
+
+  subgraph T6["Tier 6 — Malbolge · Malagard (defeat · Glasya ally)"]
+    t6_0["6.0 Sloped Gate"]:::entry
+    t6_1["6.1 The Cages [C]"]:::frag
+    t6_2["6.2 Rolling Stones [P]"]:::frag
+    t6_3["6.3 Weeping Cliff [R]"]:::frag
+    t6_4["6.4 Flesh-Gallery [P]"]:::frag
+    t6_5["6.5 Overseer's Perch [C]"]:::frag
+    t6x1["6.T1 Shifting Slope"]:::trav
+    t6x2["6.T2 Glasya's Camp"]:::trav
+    t6b["6.B Malagard<br>Hag Countess"]:::boss
+    t6c["6.C Ascent to Maladomini"]:::entry
+  end
+  t5c ==> t6_0
+  t6_0 --> t6_1
+  t6_0 --> t6_2
+  t6_0 --> t6x1
+  t6x1 --> t6_3
+  t6x1 --> t6_4
+  t6x1 --> t6x2
+  t6x2 --> t6_5
+  t6_1 -. frag .- t6b
+  t6_2 -. frag .- t6b
+  t6_3 -. frag .- t6b
+  t6_4 -. frag .- t6b
+  t6_5 -. frag .- t6b
+  t6b ==> t6c
+
+  subgraph T7["Tier 7 — Maladomini · The Ruined Lord (defeat)"]
+    t7_0["7.0 Ruined Gate"]:::entry
+    t7_1["7.1 Fly-Choked Hall [C]"]:::frag
+    t7_2["7.2 Rebuilt Ruin [P]"]:::frag
+    t7_3["7.3 Throne of Refuse [R]"]:::frag
+    t7_4["7.4 Plague-Works [P]"]:::frag
+    t7_5["7.5 Court of Flies [C]"]:::frag
+    t7x1["7.T1 Collapsing Avenue"]:::trav
+    t7x2["7.T2 The Silent Ward"]:::trav
+    t7b["7.B The Ruined Lord"]:::boss
+    t7c["7.C Ascent to Cania"]:::entry
+  end
+  t6c ==> t7_0
+  t7_0 --> t7_1
+  t7_0 --> t7_2
+  t7_0 --> t7x1
+  t7x1 --> t7_3
+  t7x1 --> t7_4
+  t7x1 --> t7x2
+  t7x2 --> t7_5
+  t7_1 -. frag .- t7b
+  t7_2 -. frag .- t7b
+  t7_3 -. frag .- t7b
+  t7_4 -. frag .- t7b
+  t7_5 -. frag .- t7b
+  t7b ==> t7c
+
+  subgraph T8["Tier 8 — Cania · The Frozen Scholar (redeem · riddle-heavy)"]
+    t8_0["8.0 Glacier Gate"]:::entry
+    t8_1["8.1 Library of Ice [R]"]:::frag
+    t8_2["8.2 Orrery of Ambition [P]"]:::frag
+    t8_3["8.3 Unfinished Theorem [P]"]:::frag
+    t8_4["8.4 Cold Forge [C]"]:::frag
+    t8_5["8.5 Hall of Almosts [R]"]:::frag
+    t8x1["8.T1 The Whiteout"]:::trav
+    t8x2["8.T2 The Reading Nook"]:::trav
+    t8b["8.B The Frozen Scholar"]:::boss
+    t8c["8.C Ascent to Nessus"]:::entry
+  end
+  t7c ==> t8_0
+  t8_0 --> t8_1
+  t8_0 --> t8_2
+  t8_0 --> t8x1
+  t8x1 --> t8_3
+  t8x1 --> t8_4
+  t8x1 --> t8x2
+  t8x2 --> t8_5
+  t8_1 -. frag .- t8b
+  t8_2 -. frag .- t8b
+  t8_3 -. frag .- t8b
+  t8_4 -. frag .- t8b
+  t8_5 -. frag .- t8b
+  t8b ==> t8c
+
+  subgraph T9["Tier 9 — Nessus · The Crown Unworn (defeat/trial · NOT Asmodeus)"]
+    t9_0["9.0 Final Gate"]:::entry
+    t9_1["9.1 Mirror Throne [R]"]:::frag
+    t9_2["9.2 Procession of the Proud [C]"]:::frag
+    t9_3["9.3 Scales of Worth [P]"]:::frag
+    t9_4["9.4 Would-Be Kings [P]"]:::frag
+    t9_5["9.5 The Last Temptation [R]"]:::frag
+    t9x1["9.T1 Vertiginous Span"]:::trav
+    t9x2["9.T2 The Antechamber"]:::trav
+    t9b["9.B The Crown Unworn"]:::boss
+    t9c["9.C The Royal Approach"]:::entry
+  end
+  t8c ==> t9_0
+  t9_0 --> t9_1
+  t9_0 --> t9_2
+  t9_0 --> t9x1
+  t9x1 --> t9_3
+  t9x1 --> t9_4
+  t9x1 --> t9x2
+  t9x2 --> t9_5
+  t9_1 -. frag .- t9b
+  t9_2 -. frag .- t9b
+  t9_3 -. frag .- t9b
+  t9_4 -. frag .- t9b
+  t9_5 -. frag .- t9b
+  t9b ==> t9c
+
+  throne["THE THRONE<br>Asmodeus · the choice · no fight"]:::throne
+  t9c ==> throne
+  </pre></div>
+
+  <footer>
+    <b>Better to Reign — The Malsheem Opera.</b> ~86 rooms · 4 front-of-house + nine tiers (entry · 5 fragments · 2 traversal · Principal · ascent) + the Throne. Up is down: the climb is the descent. Room IDs and fragment modes match the card deck to come.
+  </footer>
+</main>
+
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({
+    startOnLoad:true, theme:'base', securityLevel:'loose',
+    flowchart:{curve:'basis', htmlLabels:true, nodeSpacing:30, rankSpacing:40},
+    themeVariables:{
+      background:'#1c0f0f', fontFamily:'system-ui,-apple-system,Segoe UI,Roboto,sans-serif', fontSize:'12px',
+      primaryColor:'#241414', primaryTextColor:'#e6ddcf', primaryBorderColor:'#4a2a2a',
+      lineColor:'#9a7a6a', clusterBkg:'#1f1212', clusterBorder:'#4a2a2a', titleColor:'#e0b357', edgeLabelBackground:'#140a0a'
+    }
+  });
+</script>
+</body>
+</html>
